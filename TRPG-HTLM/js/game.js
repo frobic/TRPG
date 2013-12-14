@@ -45,3 +45,4 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	c = c || function() {}
 	c();
 }
+
