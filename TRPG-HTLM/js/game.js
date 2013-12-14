@@ -33,7 +33,7 @@ function character(id,x,y,own,type,nt)
 	function setHp (x) {
 		this.hp = x
 	}
-	this.setHP=setHp;
+	this.setHp=setHp;
 }
 
 
@@ -116,9 +116,8 @@ function loadTurn () {
 function attackChar (idatt,idadv,c) {
 	cha = characters[idToIndex[idatt]]
 	adv = characters[idToIndex[idadv]]
-	//adv.setHp(Math.max(adv.hp - cha.att,0))
-	adv.hp = 0
-	if (adv.hp == 0) {removeChar(adv)}
+	adv.setHp(Math.max(adv.hp - cha.att,0))
+	if (adv.hp == 0) {removeChar(idadv)}
 	
 	c = c || function() {}
 	c();

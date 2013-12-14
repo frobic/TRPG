@@ -148,13 +148,13 @@ function displayTitle(i,c) {
 	c();
 }
 
-function removeChar (cha) {
+function removeChar (chaid) {
+	cha = characters[idToIndex[chaid]]
 	map[cha.x][cha.y] = 0;
 	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").removeClass().text("");
-	for (var i = 0; i < nextTurns.length; i++) {
-		if (nextTurns[i] == cha) {
+	for(var i = nextTurns.length - 1; i >= 0; i--) {
+		if (nextTurns[i].id == cha.id) {
 			nextTurns.splice(i, 1);
-			i = i-1;
 		}
 	}
 	displayNextTurns()
