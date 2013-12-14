@@ -110,3 +110,8 @@ function mouseOverNextTurn(s,rank) {
 		}
 	})
 }
+
+function displayMoveChar(cha,xd,yd,x,y) {
+	$("#grid tr:eq("+xd+") td:eq("+yd+")").removeClass("").text("");
+	$("#grid tr:eq("+x+") td:eq("+y+")").addClass("player"+cha.own).text(cha.tag);
+}

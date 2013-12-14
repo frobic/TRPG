@@ -92,3 +92,15 @@ function actionsMap(id,c) {
 	return temp;	
 }
 
+function moveChar (id,x,y,c) {
+	cha = characters[idToIndex[id]]
+	map[cha.x][cha.y] = 0
+	displayMoveChar(cha,cha.x,cha.y,x,y);
+	cha.x = x;
+	cha.y = y;
+	map[x][y] = cha.id
+	
+	c = c || function() {}
+	c();
+}
+
