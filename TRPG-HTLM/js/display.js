@@ -52,4 +52,15 @@ function loadNextTurns(c) {
 	c();
 }
 
-function displayCard() { }
+function displayCard(cha,pos,c) { 
+	var p = $(document.createElement('p'))
+	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.owner")").append('<br />');
+	p.append(ligne);
+	var ligne = $(document.createElement('span')).text("PV : "+cha.hp"").append('<br />');
+	p.append(ligne);
+	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att"").append('<br />');
+	p.append(ligne);
+	
+	c = c || function() {}
+	c();
+}

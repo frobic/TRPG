@@ -13,6 +13,7 @@ function character(id,x,y,own,type,nt)
 		this.tag = "GUE";
 		this.rad = 1;
 		this.range = 1;
+		this.name = "Guerrier"
 	}
 	else if (type == "SCO") {
 		this.att=3;
@@ -22,6 +23,7 @@ function character(id,x,y,own,type,nt)
 		this.tag = "SCO";
 		this.rad = 2;
 		this.range = 1;
+		this.name = "Eclaireur"
 	}
 	function setHp (x) {
 		this.hp = x
