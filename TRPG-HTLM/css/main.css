@@ -71,7 +71,7 @@ textarea {
 
 #mainContainer {
 	float: left;
-	width: 600px;
+	width: 650px;
 	margin-right:40px;
 }
 
@@ -79,6 +79,11 @@ textarea {
 	float: right;
 	width: 100px;
 	border: 1px solid black;
+}
+
+#sideTurns div {
+	text-align: center;
+	padding: 5px 0px;
 }
 
 #grid td{

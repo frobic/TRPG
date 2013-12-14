@@ -38,7 +38,7 @@ function displayNextTurns(c) {
 	
 	$("sideTurns").empty()
 	
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < 15; i++) {
 	    var div = $(document.createElement("div"));
 		div.addClass("player"+nextTurns[i].own);
 		div.text(nextTurns[i].name);
