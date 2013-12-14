@@ -68,6 +68,26 @@ function displayCard(cha,pos,c) {
 	c();
 }
 
+function displayActionsMap(chaid,c) {
+	var actmap = actionsMap(chaid);
+	var cha = characters[idToIndex[chaid]];
+	for (i = 0; i < i < map.length; i++) {
+		for (j = 0; j < map[0].length; j++) {
+			$("#grid tr:eq("+i+") td:eq("+j+")").removeClass()
+			if (map[i][j] > 0) {adv = characters[idToIndex[map[i][j]]]} else {adv = cha.own}
+			if (actmap[i][j] == 1 && adv != cha.own) {
+				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("fight")
+			}
+			if (actmap[i][j] == 2) {
+				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("move"+cha.own) 
+			}
+		}
+	}
+	
+c = c || function() {}
+c();
+}
+
 function mouseOverGridSpan(s) {
 	s.mouseover( function() {
 		var y = $(this).parent()[0].cellIndex
@@ -76,18 +96,18 @@ function mouseOverGridSpan(s) {
 		if (chaid != 0) {
 			var cha = characters[idToIndex[chaid]]
 			displayCard(cha,"Right");
-			//actionsMap(chaid);
+			displayActionsMap(chaid);
 		}
 	})
 }
 
 function mouseOverNextTurn(s,rank) {
 	s.mouseover( function() {
-			var chaid = nextTurns[rank].id
-			if (chaid != 0) {
-				var cha = characters[idToIndex[chaid]]
-				displayCard(cha,"Right");
-				//actionsMap(chaid);
+		var chaid = nextTurns[rank].id
+		if (chaid != 0) {
+			var cha = characters[idToIndex[chaid]]
+			displayCard(cha,"Right");
+			displayActionsMap(chaid);
 		}
 	})
 }

@@ -77,7 +77,7 @@ function actionsMap(id,c) {
 	var rd = cha.rad;
 	var rg = cha.range;
 	
-	temp = dfs(temp,x,y,rd,2,1);
+	temp = dfs(temp,x,y,rd,2,id);
 	for (var i = 0 ; i < temp.length ; i++) {
 		for (var j = 0 ; j < temp[0].length ; j++) {
 			if (temp[i][j] == 2) {
