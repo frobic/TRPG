@@ -61,7 +61,7 @@ function displayCard(cha,pos,c) {
 	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att).append('<br />');
 	p.append(ligne);
 	
-	$("#cb+"pos).append(p);
+	$("#cb"+pos).append(p);
 	
 	c = c || function() {}
 	c();
