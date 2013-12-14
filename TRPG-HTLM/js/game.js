@@ -109,3 +109,15 @@ function loadTurn () {
 	displayCard(nextTurns[0].id,"Left");
 	displayTitle(nextTurns[0].own);
 }
+
+function attackChar (idatt,idadv,c) {
+	cha = characters[idToIndex[idatt]]
+	adv = characters[idToIndex[idadv]]
+	//adv.setHp(Math.max(adv.hp - cha.att,0))
+	adv.hp = 0
+	if (adv.hp == 0) {removeChar(adv)}
+	
+	c = c || function() {}
+	c();
+}
+
