@@ -6,8 +6,8 @@ function character(id,x,y,own,type,nt)
 	this.id=id;
 	this.x=x;
 	this.y=y;
-	this.cx = x;
-	this.cy = y;
+	this.fx = x;
+	this.fy = y;
 	this.own=own;
 	this.nt=nt;
 	if (type == "GUE") {
@@ -34,6 +34,12 @@ function character(id,x,y,own,type,nt)
 		this.hp = x
 	}
 	this.setHp=setHp;
+	
+	function move (x,y) {
+		this.x = x;
+		this.y = y;
+	}
+	this.move=move;
 }
 
 
@@ -75,8 +81,8 @@ function actionsMap(id,c) {
 			temp[i][j] = 0;
 	}
 	
-	var x = cha.x;
-	var y = cha.y;
+	var x = cha.fx;
+	var y = cha.fy;
 	var rd = cha.rad;
 	var rg = cha.range;
 	

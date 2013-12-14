@@ -2,6 +2,7 @@
 
 map = new Array();
 createGrid(8,8);
+player = 1;
 
 var characters = new Array();
 var nextTurns = new Array();

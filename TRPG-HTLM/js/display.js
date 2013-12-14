@@ -83,8 +83,8 @@ function displayActionsMap(chaid,c) {
 				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("move"+cha.own) 
 			}
 		}
-		$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").removeClass();
-		$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").addClass("position");
+		$("#grid tr:eq("+cha.fx+") td:eq("+cha.fy+")").removeClass();
+		$("#grid tr:eq("+cha.fx+") td:eq("+cha.fy+")").addClass("position");
 	}
 	
 	c = c || function() {}
@@ -111,8 +111,17 @@ function mouseClickGrid(s) {
 	s.click( function() {
 		var y = $(this)[0].cellIndex
 		var x = $(this).parent()[0].rowIndex
-		var chaid = map[x][y];
-		console.log(x+" "+y);
+		var cha = characters[idToIndex[nextTurns[0].id]]
+		if (nextTurns[0].own == player) {
+			aM = actionsMap(nextTurns[0].id);
+			if (aM[x][y]==2) {
+				map[cha.x][cha.y] = 0;
+				map[x][y] = nextTurns[0].id;
+				displayMoveChar(cha.x,cha.y,x,y);
+				characters[idToIndex[nextTurns[0].id]].move(x,y);
+				displayActionsMap(nextTurns[0].id);
+			}
+		}
 	})
 }
 
