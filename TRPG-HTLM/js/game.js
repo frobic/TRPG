@@ -1,5 +1,5 @@
-var cP1 = [0,150,0];
-var cP2 = [0,150,0];
+var cP1 = [25,150,25];
+var cP2 = [25,150,25];
 
 function character(id,x,y,own,type,nt)
 {
@@ -42,10 +42,15 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	for (var i = 0 ; i < 20 ; i++) {
 		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt+(i+0.01)*myChar.cel,"own":myChar.own});
 	}
+	map[x][y] = id;
 	
 	nextTurns.sort(function(a,b){return a.val-b.val})
 	
 	c = c || function() {}
 	c();
+}
+
+function actionsMap(id,c) {
+	var cha = characters[idToIndex[id]];
 }
 

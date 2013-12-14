@@ -10,8 +10,10 @@ function createGrid (n,m) {
 	
 	var fragment = document.createDocumentFragment();
 	for (i = 0; i < n; i++) {
+		map[i] = new Array();
 	    var tr = document.createElement("tr");
 		for (j = 0; j < m; j++) {
+			map[i][j] = 0;
 	    	var td = document.createElement("td");
 			tr.appendChild(td);
 		}
@@ -66,3 +68,15 @@ function displayCard(cha,pos,c) {
 	c = c || function() {}
 	c();
 }
+<<<<<<< HEAD
+=======
+
+$('td').mouseover( function() {
+	var y = $(this)[0].cellIndex
+	var x = $(this).parent()[0].rowIndex
+	var chaid = map(x,y)
+	var cha = characters[idToIndex[chaid]]
+	displayCard(cha,Right)
+	actionsMap(chaid)
+	})
+>>>>>>> aea0345f3ac5f20ca940aafc7dacc4c70721bee2

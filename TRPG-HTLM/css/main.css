@@ -97,11 +97,11 @@ textarea {
 }
 
 .player1 {
-	color: green;
+	color: rgb(25,150,25);
 }
 
 .player2 {
-	color: blue;
+	color: rgb(25,25,150);
 }
 
 
