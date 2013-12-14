@@ -35,7 +35,7 @@ function displayCharacter(chaid,c) {
 function displayNextTurns(c) {
 	var sideTurns = $("#sideTurns");
 	
-	$("sideTurns").empty()
+	sideTurns.empty()
 	
 	for (i = 0; i < 15; i++) {
 	    var div = $(document.createElement("div"));
@@ -151,7 +151,7 @@ function displayTitle(i,c) {
 function removeChar (chaid) {
 	cha = characters[idToIndex[chaid]]
 	map[cha.x][cha.y] = 0;
-	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").removeClass().text("");
+	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").empty();
 	for(var i = nextTurns.length - 1; i >= 0; i--) {
 		if (nextTurns[i].id == cha.id) {
 			nextTurns.splice(i, 1);
