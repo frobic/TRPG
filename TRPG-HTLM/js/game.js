@@ -1,3 +1,6 @@
+var cP1 = [0,150,0];
+var cP2 = [0,150,0];
+
 function character(id,x,y,own,type,nt)
 {
 	this.id=id;
