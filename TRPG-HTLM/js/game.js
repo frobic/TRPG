@@ -8,6 +8,7 @@ function character(id,x,y,own,type,nt)
 	this.y=y;
 	this.fx = x;
 	this.fy = y;
+	this.target = -1;
 	this.own=own;
 	this.nt=nt;
 	if (type == "GUE") {
@@ -105,8 +106,7 @@ function moveChar (id,x,y,c) {
 	cha = characters[idToIndex[id]]
 	map[cha.x][cha.y] = 0
 	displayMoveChar(cha.x,cha.y,x,y);
-	cha.x = x;
-	cha.y = y;
+	cha.move(x,y)
 	map[x][y] = cha.id
 	
 	c = c || function() {}

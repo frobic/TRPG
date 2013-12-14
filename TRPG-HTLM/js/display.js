@@ -115,10 +115,12 @@ function mouseClickGrid(s) {
 		if (nextTurns[0].own == player) {
 			aM = actionsMap(nextTurns[0].id);
 			if (aM[x][y]==2) {
-				map[cha.x][cha.y] = 0;
-				map[x][y] = nextTurns[0].id;
-				displayMoveChar(cha.x,cha.y,x,y);
-				characters[idToIndex[nextTurns[0].id]].move(x,y);
+				moveChar(cha.id,x,y);
+				displayActionsMap(nextTurns[0].id);
+			}
+			if (aM[x][y]==1) {
+				cha.target = map[x][y]
+				moveChar(cha.id,xp,yp);
 				displayActionsMap(nextTurns[0].id);
 			}
 		}
