@@ -110,22 +110,28 @@ textarea {
 }
 
 .move1 {
-	background-color: #00CC33
+	background-color: rgb(0,204,51);
 }
 
 .move2 {
-	background-color: #00CCFF
+	background-color: rgb(0,204,255);
+}
+
+.att1 {
+	background-color: rgba(0,204,51,0.5);
+}
+
+.att2 {
+	background-color: rgba(0,204,255,0.5);
 }
 
 .fight {
-	background-color: #FF3333
+	background-color: rgb(255,51,51);
 }
 
 .position {
-	background-color: #FFFF66
+	background-color: rgb(255,255,102);
 }
-
-
 
 
 /* ==========================================================================

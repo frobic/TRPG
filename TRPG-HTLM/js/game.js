@@ -89,13 +89,13 @@ function actionsMap(id,c) {
 		}	
 	}
 	
-	return temp;	
+	return temp;
 }
 
 function moveChar (id,x,y,c) {
 	cha = characters[idToIndex[id]]
 	map[cha.x][cha.y] = 0
-	displayMoveChar(cha,cha.x,cha.y,x,y);
+	displayMoveChar(cha.x,cha.y,x,y);
 	cha.x = x;
 	cha.y = y;
 	map[x][y] = cha.id
@@ -104,3 +104,8 @@ function moveChar (id,x,y,c) {
 	c();
 }
 
+function loadTurn () {
+	displayActionsMap(nextTurns[0].id);
+	displayCard(nextTurns[0].id,"Left");
+	displayTitle(nextTurns[0].own);
+}

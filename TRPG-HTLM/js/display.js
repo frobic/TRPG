@@ -50,7 +50,8 @@ function displayNextTurns(c) {
 	c();
 }
 
-function displayCard(cha,pos,c) { 
+function displayCard(chaid,pos,c) { 
+	var cha = characters[idToIndex[chaid]];
 	var p = $(document.createElement('p')).addClass("player"+cha.own)
 	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.own+")").append('<br />');
 	p.append(ligne);
@@ -69,22 +70,26 @@ function displayCard(cha,pos,c) {
 function displayActionsMap(chaid,c) {
 	var actmap = actionsMap(chaid);
 	var cha = characters[idToIndex[chaid]];
-	for (i = 0; i < i < map.length; i++) {
+	for (i = 0; i < map.length; i++) {
 		for (j = 0; j < map[0].length; j++) {
 			$("#grid tr:eq("+i+") td:eq("+j+")").removeClass()
-			if (map[i][j] > 0) {adv = characters[idToIndex[map[i][j]]]} else {adv = cha.own}
+			if (map[i][j] > 0) {adv = characters[idToIndex[map[i][j]]].own} else {adv = cha.own}
 			if (actmap[i][j] == 1 && adv != cha.own) {
 				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("fight")
 			}
-			if (actmap[i][j] == 2) {
+			else if (actmap[i][j] == 1) {
+				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("att"+cha.own) 
+			}
+			else if (actmap[i][j] == 2) {
 				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("move"+cha.own) 
 			}
 		}
-	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").addClass("position")
+		$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").removeClass();
+		$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").addClass("position");
 	}
 	
-c = c || function() {}
-c();
+	c = c || function() {}
+	c();
 }
 
 function mouseOverGridSpan(s) {
@@ -94,9 +99,12 @@ function mouseOverGridSpan(s) {
 		var chaid = map[x][y];
 		if (chaid != 0) {
 			var cha = characters[idToIndex[chaid]]
-			displayCard(cha,"Right");
+			displayCard(cha.id,"Right");
 			displayActionsMap(chaid);
 		}
+	})
+	s.mouseout(function() {
+		displayActionsMap(nextTurns[0].id);
 	})
 }
 
@@ -105,13 +113,29 @@ function mouseOverNextTurn(s,rank) {
 		var chaid = nextTurns[rank].id
 		if (chaid != 0) {
 			var cha = characters[idToIndex[chaid]]
-			displayCard(cha,"Right");
+			displayCard(cha.id,"Right");
 			displayActionsMap(chaid);
 		}
 	})
+	s.mouseout(function() {
+		displayActionsMap(nextTurns[0].id);
+	})
 }
 
-function displayMoveChar(cha,xd,yd,x,y) {
-	$("#grid tr:eq("+xd+") td:eq("+yd+")").removeClass("").text("");
-	$("#grid tr:eq("+x+") td:eq("+y+")").addClass("player"+cha.own).text(cha.tag);
+function displayMoveChar(xd,yd,x,y,c) {
+	$("#grid td").removeClass();
+	var temp = $("#grid tr:eq("+xd+") td:eq("+yd+")");
+	$("#grid tr:eq("+x+") td:eq("+y+")").append(temp.children()[0]);
+	//temp.empty();
+	
+	c = c || function() {}
+	c();
+	
+}
+
+function displayTitle(i,c) {
+	$('#toPlay').text("Tour du joueur "+i);
+	
+	c = c || function() {}
+	c();
 }
