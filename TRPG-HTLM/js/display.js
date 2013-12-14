@@ -82,6 +82,7 @@ function displayActionsMap(chaid,c) {
 				$("#grid tr:eq("+i+") td:eq("+j+")").addClass("move"+cha.own) 
 			}
 		}
+	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").addClass("position")
 	}
 	
 c = c || function() {}
