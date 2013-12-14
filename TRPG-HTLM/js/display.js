@@ -54,7 +54,7 @@ function loadNextTurns(c) {
 
 function displayCard(cha,pos,c) { 
 	var p = $(document.createElement('p'))
-	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.owner+")").append('<br />');
+	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.own+")").append('<br />');
 	p.append(ligne);
 	var ligne = $(document.createElement('span')).text("PV : "+cha.hp).append('<br />');
 	p.append(ligne);
