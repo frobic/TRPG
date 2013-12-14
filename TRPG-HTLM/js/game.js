@@ -40,7 +40,7 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	idToIndex[id] = characters.length-1;
 	
 	for (var i = 0 ; i < 20 ; i++) {
-		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt+(i+0.01)*myChar.cel,"own":myChar.own});
+		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt+(i+0.01)*myChar.cel,"own":myChar.own,"name":myChar.name});
 	}
 	map[x][y] = id;
 	
