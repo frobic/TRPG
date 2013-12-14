@@ -22,8 +22,6 @@ function createGrid (n,m) {
 	grid.appendChild(fragment);
 }
 
-
-
 function displayCharacter(chaid,c) {
 	
 	var cha = characters[idToIndex[chaid]];
@@ -53,7 +51,7 @@ function displayNextTurns(c) {
 }
 
 function displayCard(cha,pos,c) { 
-	var p = $(document.createElement('p'))
+	var p = $(document.createElement('p')).addClass("player"+cha.own)
 	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.own+")").append('<br />');
 	p.append(ligne);
 	var ligne = $(document.createElement('span')).text("PV : "+cha.hp).append('<br />');
