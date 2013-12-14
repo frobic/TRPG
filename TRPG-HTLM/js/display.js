@@ -8,7 +8,7 @@ function createGrid (n,m) {
 	  grid.removeChild(grid.firstChild);
 	}
 	
-	var fragment = document.createDocumentFragment();
+	var fragment = document.createElement("tbody");
 	for (i = 0; i < n; i++) {
 		map[i] = new Array();
 	    var tr = document.createElement("tr");
@@ -19,7 +19,18 @@ function createGrid (n,m) {
 		}
 	    fragment.appendChild(tr);
 	}
-	grid.appendChild(fragment);	
+	grid.appendChild(fragment);
+	
+	$('#grid td').mouseover( function() {
+		var y = $(this)[0].cellIndex
+		var x = $(this).parent()[0].rowIndex
+		var chaid = map[x][y];
+		if (chaid != 0) {
+			var cha = characters[idToIndex[chaid]]
+			displayCard(cha,"Right");
+			//actionsMap(chaid);
+		}
+	})
 }
 
 
@@ -68,12 +79,3 @@ function displayCard(cha,pos,c) {
 	c = c || function() {}
 	c();
 }
-
-$('td').mouseover( function() {
-	var y = $(this)[0].cellIndex
-	var x = $(this).parent()[0].rowIndex
-	var chaid = map(x,y)
-	var cha = characters[idToIndex[chaid]]
-	displayCard(cha,Right)
-	actionsMap(chaid)
-})
