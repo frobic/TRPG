@@ -20,17 +20,6 @@ function createGrid (n,m) {
 	    fragment.appendChild(tr);
 	}
 	grid.appendChild(fragment);
-	
-	$('#grid td').mouseover( function() {
-		var y = $(this)[0].cellIndex
-		var x = $(this).parent()[0].rowIndex
-		var chaid = map[x][y];
-		if (chaid != 0) {
-			var cha = characters[idToIndex[chaid]]
-			displayCard(cha,"Right");
-			//actionsMap(chaid);
-		}
-	})
 }
 
 
@@ -39,8 +28,9 @@ function displayCharacter(chaid,c) {
 	
 	var cha = characters[idToIndex[chaid]];
 	var sprite = $(document.createElement('span')).addClass("player"+cha.own).text(cha.tag);
-	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").append(sprite);
 	
+	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").append(sprite);
+	mouseOverGridSpan(sprite);
 	c = c || function() {}
 	c();
 }
@@ -78,4 +68,18 @@ function displayCard(cha,pos,c) {
 	
 	c = c || function() {}
 	c();
+}
+
+function mouseOverGridSpan(s) {
+	s.unbind('mouseover	')
+	s.mouseover( function() {
+		var y = $(this).parent()[0].cellIndex
+		var x = $(this).parent().parent()[0].rowIndex
+		var chaid = map[x][y];
+		if (chaid != 0) {
+			var cha = characters[idToIndex[chaid]]
+			displayCard(cha,"Right");
+			//actionsMap(chaid);
+		}
+	})
 }

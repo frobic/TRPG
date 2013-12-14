@@ -88,8 +88,13 @@ textarea {
 	text-align: center;
 }
 
-#CharactBox {
-	clear:both;
+.charBox {
+	float: left;
+	width: 250px;
+	margin-right: 50px;
+	border: 1px solid #000;
+	height: 100px;
+	padding: 10px;
 }
 
 .player1, .player2 {

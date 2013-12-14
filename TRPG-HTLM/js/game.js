@@ -52,5 +52,6 @@ function newCharacter(id,x,y,own,type,nt,c) {
 
 function actionsMap(id,c) {
 	var cha = characters[idToIndex[id]];
+	var retour = map;
 }
 
