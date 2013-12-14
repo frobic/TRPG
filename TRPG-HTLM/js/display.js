@@ -64,6 +64,7 @@ function displayCard(cha,pos,c) {
 	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att).append('<br />');
 	p.append(ligne);
 	
+	$("#cb"+pos).empty();
 	$("#cb"+pos).append(p);
 	
 	c = c || function() {}
@@ -71,7 +72,6 @@ function displayCard(cha,pos,c) {
 }
 
 function mouseOverGridSpan(s) {
-	s.unbind('mouseover	')
 	s.mouseover( function() {
 		var y = $(this).parent()[0].cellIndex
 		var x = $(this).parent().parent()[0].rowIndex
