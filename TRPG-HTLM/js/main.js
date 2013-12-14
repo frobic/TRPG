@@ -12,4 +12,4 @@ newCharacter(2,0,1,2,"SCO",2,function(){displayCharacter(2)});
 newCharacter(3,7,6,1,"GUE",3,function(){displayCharacter(3)});
 newCharacter(4,7,7,2,"GUE",4,function(){displayCharacter(4)});
 
-loadNextTurns();
+displayNextTurns();

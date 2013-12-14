@@ -35,22 +35,19 @@ function displayCharacter(chaid,c) {
 	c();
 }
 
-function loadNextTurns(c) {
-	var sideTurns = document.getElementById("sideTurns");
+function displayNextTurns(c) {
+	var sideTurns = $("#sideTurns");
 	
-	while (sideTurns.firstChild) {
-	  sideTurns.removeChild(sideTurns.firstChild);
-	}
+	$("sideTurns").empty()
 	
-	var fragment = document.createDocumentFragment();
 	for (i = 0; i < 20; i++) {
-	    var div = document.createElement("div");
-		div.className = "player"+nextTurns[i].own;
-		div.innerHTML = nextTurns[i].tag;
-	    fragment.appendChild(div);
+	    var div = $(document.createElement("div"));
+		div.addClass("player"+nextTurns[i].own);
+		div.text(nextTurns[i].name);
+	    sideTurns.append(div)
+		mouseOverNextTurn(div,i);
 	}
-	sideTurns.appendChild(fragment);	
-	
+		
 	c = c || function() {}
 	c();
 }
@@ -80,6 +77,17 @@ function mouseOverGridSpan(s) {
 			var cha = characters[idToIndex[chaid]]
 			displayCard(cha,"Right");
 			//actionsMap(chaid);
+		}
+	})
+}
+
+function mouseOverNextTurn(s,rank) {
+	s.mouseover( function() {
+			var chaid = nextTurns[rank].id
+			if (chaid != 0) {
+				var cha = characters[idToIndex[chaid]]
+				displayCard(cha,"Right");
+				//actionsMap(chaid);
 		}
 	})
 }
