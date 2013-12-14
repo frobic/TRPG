@@ -52,4 +52,4 @@ function loadNextTurns(c) {
 	c();
 }
 
-function displayCard()
+function displayCard() { }
