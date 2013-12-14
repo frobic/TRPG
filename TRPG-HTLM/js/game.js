@@ -61,16 +61,58 @@ function newCharacter(id,x,y,own,type,nt,c) {
 }
 
 function dfs (m,x,y,d,v,id) {
-	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] == 0) {
+	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] < v) {
 		m[x][y] = v;
 		m = dfs(m,x-1,y,d-1,v,id);
 		m = dfs(m,x+1,y,d-1,v,id);
 		m = dfs(m,x,y-1,d-1,v,id);
 		m = dfs(m,x,y+1,d-1,v,id);
 	}
+	return m;
+}
+
+function bfs (x,y,l,id) {
+	var m = new Array();
+	for (var i = 0 ; i < map.length ; i++) {
+		m[i] = new Array();
+		for (var j = 0 ; j < map[0].length; j++)
+			m[i][j] = -1;
+	}
+	if (id != undefined) {
+		var queue = new Array();
+		queue.push([x,y,0]);
+		var c = queue.shift();
+		while(c && c[2] < l+1) {
+			if (m[c[0]] != undefined && m[c[0]][c[1]] != undefined && m[c[0]][c[1]] == -1 && (map[c[0]][c[1]] == 0 || map[c[0]][c[1]] == id)) {
+				m[c[0]][c[1]] = c[2];
+				if (m[c[0]-1] != undefined && m[c[0]-1][c[1]] != undefined && m[c[0]-1][c[1]] == -1 && (map[c[0]-1][c[1]] == 0 || map[c[0]-1][c[1]] == id)) { queue.push([c[0]-1,c[1],c[2]+1]) }
+				if (m[c[0]+1] != undefined && m[c[0]+1][c[1]] != undefined && m[c[0]+1][c[1]] == -1 && (map[c[0]+1][c[1]] == 0 || map[c[0]+1][c[1]] == id)) { queue.push([c[0]+1,c[1],c[2]+1]) }
+				if (m[c[0]][c[1]-1] != undefined && m[c[0]][c[1]-1] == -1 && (map[c[0]][c[1]-1] == 0 || map[c[0]][c[1]-1] == id)) {queue.push([c[0],c[1]-1,c[2]+1]) }
+				if (m[c[0]][c[1]+1] != undefined && m[c[0]][c[1]+1] == -1 && (map[c[0]][c[1]+1] == 0 || map[c[0]][c[1]+1] == id)) {queue.push([c[0],c[1]+1,c[2]+1]) }
+			}
+			queue.sort(function(a,b){return a[2]-b[2]});
+			c = queue.shift();
+		}
+	}
+	else {
+		var queue = new Array();
+		queue.push([x,y,0]);
+		var c = queue.shift();
+		while(c && c[2] < l+1) {
+			if (m[c[0]] != undefined && m[c[0]][c[1]] != undefined && m[c[0]][c[1]] == -1) {
+				m[c[0]][c[1]] = 1;
+				if (m[c[0]-1] != undefined && m[c[0]-1][c[1]] != undefined && m[c[0]-1][c[1]] == -1) { queue.push([c[0]-1,c[1],c[2]+1]) }
+				if (m[c[0]+1] != undefined && m[c[0]+1][c[1]] != undefined && m[c[0]+1][c[1]] == -1) { queue.push([c[0]+1,c[1],c[2]+1]) }
+				if (m[c[0]][c[1]-1] != undefined && m[c[0]][c[1]-1] == -1) {queue.push([c[0],c[1]-1,c[2]+1]) }
+				if (m[c[0]][c[1]+1] != undefined && m[c[0]][c[1]+1] == -1) {queue.push([c[0],c[1]+1,c[2]+1]) }
+			}
+			queue.sort(function(a,b){return a[2]-b[2]});
+			c = queue.shift();
+		}	
+	}
+	
 	
 	return m;
-	
 }
 
 function actionsMap(id,c) {

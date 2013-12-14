@@ -119,7 +119,9 @@ function mouseClickGrid(s) {
 				displayActionsMap(nextTurns[0].id);
 			}
 			if (aM[x][y]==1) {
-				cha.target = map[x][y]
+				cha.target = map[x][y];
+				var distanceCase = bfs(xorigine,yorigine,rd,id);
+				var casetouchable = bfs(xtarg,ytarg,rg);
 				moveChar(cha.id,xp,yp);
 				displayActionsMap(nextTurns[0].id);
 			}
