@@ -68,8 +68,6 @@ function displayCard(cha,pos,c) {
 	c = c || function() {}
 	c();
 }
-<<<<<<< HEAD
-=======
 
 $('td').mouseover( function() {
 	var y = $(this)[0].cellIndex
@@ -78,5 +76,4 @@ $('td').mouseover( function() {
 	var cha = characters[idToIndex[chaid]]
 	displayCard(cha,Right)
 	actionsMap(chaid)
-	})
->>>>>>> aea0345f3ac5f20ca940aafc7dacc4c70721bee2
+})
