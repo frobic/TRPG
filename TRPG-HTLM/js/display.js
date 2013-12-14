@@ -120,8 +120,20 @@ function mouseClickGrid(s) {
 			}
 			if (aM[x][y]==1) {
 				cha.target = map[x][y];
-				var distanceCase = bfs(xorigine,yorigine,rd,id);
-				var casetouchable = bfs(xtarg,ytarg,rg);
+				var distanceCase = bfs(cha.fx,cha.id,cha.rad,cha.id);
+				var caseTouchable = bfs(x,y,cha.range);
+				var xp = cha.fx
+				var yp = cha.fy
+				var temp = cha.rad+1
+				for (i = 0; i < map.length; i++) {
+					for (j = 0; j < map[0].length; j++) {
+						if (caseTouchable[i][j] == 1 && temp > distanceCase[i][j]) {
+							xp = i
+							yp = j
+							temp = distanceCase[i][j]
+						}
+					}
+				}
 				moveChar(cha.id,xp,yp);
 				displayActionsMap(nextTurns[0].id);
 			}
