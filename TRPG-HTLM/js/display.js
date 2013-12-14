@@ -147,3 +147,15 @@ function displayTitle(i,c) {
 	c = c || function() {}
 	c();
 }
+
+function removeChar (cha) {
+	map[cha.x][cha.y] = 0;
+	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").removeClass().text("");
+	for (var i = 0; i < nextTurns.length; i++) {
+		if (nextTurns[i] == cha) {
+			nextTurns.splice(i, 1);
+			i = i-1;
+		}
+	}
+	displayNextTurns()
+}
