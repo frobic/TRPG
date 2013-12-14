@@ -54,12 +54,14 @@ function loadNextTurns(c) {
 
 function displayCard(cha,pos,c) { 
 	var p = $(document.createElement('p'))
-	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.owner")").append('<br />');
+	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.owner+")").append('<br />');
 	p.append(ligne);
-	var ligne = $(document.createElement('span')).text("PV : "+cha.hp"").append('<br />');
+	var ligne = $(document.createElement('span')).text("PV : "+cha.hp).append('<br />');
 	p.append(ligne);
-	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att"").append('<br />');
+	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att).append('<br />');
 	p.append(ligne);
+	
+	$("#cb+"pos).append(p);
 	
 	c = c || function() {}
 	c();
