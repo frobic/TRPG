@@ -50,8 +50,45 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	c();
 }
 
+function dfs (m,x,y,d,v,id) {
+	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] == 0) {
+		m[x][y] = v;
+		m = dfs(m,x-1,y,d-1,v,id);
+		m = dfs(m,x+1,y,d-1,v,id);
+		m = dfs(m,x,y-1,d-1,v,id);
+		m = dfs(m,x,y+1,d-1,v,id);
+	}
+	
+	return m;
+	
+}
+
 function actionsMap(id,c) {
+	var temp = new Array();
 	var cha = characters[idToIndex[id]];
-	var retour = newArray();
+	for (var i = 0 ; i < map.length ; i++) {
+		temp[i] = new Array();
+		for (var j = 0 ; j < map[0].length; j++)
+			temp[i][j] = 0;
+	}
+	
+	var x = cha.x;
+	var y = cha.y;
+	var rd = cha.rad;
+	var rg = cha.range;
+	
+	temp = dfs(temp,x,y,rd,2,1);
+	for (var i = 0 ; i < temp.length ; i++) {
+		for (var j = 0 ; j < temp[0].length ; j++) {
+			if (temp[i][j] == 2) {
+				temp = dfs(temp,i-1,j,rg-1,1,id);
+				temp = dfs(temp,i+1,j,rg-1,1,id);
+				temp = dfs(temp,i,j-1,rg-1,1,id);
+				temp = dfs(temp,i,j+1,rg-1,1,id);
+			}
+		}	
+	}
+	
+	return temp;	
 }
 
