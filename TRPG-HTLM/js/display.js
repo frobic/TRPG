@@ -2,24 +2,23 @@ function createGrid (n,m) {
 	
 	// Crée une grille vide de taille n x m
 	
-	var grid = document.getElementById("grid");
+	var grid = $('#grid')
 	
-	while (grid.firstChild) {
-	  grid.removeChild(grid.firstChild);
-	}
+	grid.empty();
 	
-	var fragment = document.createElement("tbody");
+	var fragment = $(document.createElement("tbody"));
 	for (i = 0; i < n; i++) {
 		map[i] = new Array();
-	    var tr = document.createElement("tr");
+	    var tr = $(document.createElement("tr"));
 		for (j = 0; j < m; j++) {
 			map[i][j] = 0;
-	    	var td = document.createElement("td");
-			tr.appendChild(td);
+	    	var td = $(document.createElement("td"));
+			mouseClickGrid(td);
+			tr.append(td);
 		}
-	    fragment.appendChild(tr);
+	    fragment.append(tr);
 	}
-	grid.appendChild(fragment);
+	grid.append(fragment);
 }
 
 function displayCharacter(chaid,c) {
@@ -105,6 +104,15 @@ function mouseOverGridSpan(s) {
 	})
 	s.mouseout(function() {
 		displayActionsMap(nextTurns[0].id);
+	})
+}
+
+function mouseClickGrid(s) {
+	s.click( function() {
+		var y = $(this)[0].cellIndex
+		var x = $(this).parent()[0].rowIndex
+		var chaid = map[x][y];
+		console.log(x+" "+y);
 	})
 }
 

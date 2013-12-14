@@ -6,6 +6,8 @@ function character(id,x,y,own,type,nt)
 	this.id=id;
 	this.x=x;
 	this.y=y;
+	this.cx = x;
+	this.cy = y;
 	this.own=own;
 	this.nt=nt;
 	if (type == "GUE") {
@@ -31,6 +33,7 @@ function character(id,x,y,own,type,nt)
 	function setHp (x) {
 		this.hp = x
 	}
+	this.setHP=setHp;
 }
 
 
@@ -109,3 +112,4 @@ function loadTurn () {
 	displayCard(nextTurns[0].id,"Left");
 	displayTitle(nextTurns[0].own);
 }
+
