@@ -175,6 +175,7 @@ function attackChar (idatt,idadv,c) {
 }
 
 function newTurn () {
+	victory()
 	cha = characters[idToIndex[nextTurns[0].id]]
 	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt,"own":cha.own,"name":cha.name});
 	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + (1.01)*cha.cel
@@ -196,4 +197,17 @@ function orderSkip () {
 	characters[idToIndex[nextTurns[0].id]].fx = cha.x
 	characters[idToIndex[nextTurns[0].id]].fy = cha.y
 	newTurn()
+}
+
+function numberAlive(player) {
+	var temp = 0
+	for (var i = 0 ; i < characters.length ; i++) {
+		if (characters[i].hp != 0) {temp++}
+	}
+	return temp
+}
+
+function victory() {
+	player = nextTurns[0].own
+	if (numberAlive(3-player) == 0) {$('#toPlay').text("Victoire du joueur "+player);}
 }
