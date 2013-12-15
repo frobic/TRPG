@@ -113,13 +113,14 @@ function mouseClickGrid(s) {
 		var x = $(this).parent()[0].rowIndex
 		var cha = characters[idToIndex[nextTurns[0].id]]
 		var chaid = idToIndex[nextTurns[0].id];
+		characters[chaid].target = -1;
 		if (nextTurns[0].own == player) {
 			aM = actionsMap(nextTurns[0].id);
 			if (aM[x][y]==2) {
 				moveChar(cha.id,x,y);
 				displayActionsMap(nextTurns[0].id);
 			}
-			if (aM[x][y]==1) {
+			if (aM[x][y]==1 && map[x][y] != 0) {
 				characters[chaid].target = map[x][y];
 				var distanceCase = bfs(cha.x,cha.y,cha.rad,cha.id);
 				var caseTouchable = bfs(x,y,cha.range);
@@ -137,9 +138,9 @@ function mouseClickGrid(s) {
 				}
 				moveChar(cha.id,xp,yp);
 				displayActionsMap(nextTurns[0].id);
-				displayOrders();
 			}
 		}
+		displayOrders();
 	})
 }
 
@@ -182,7 +183,6 @@ function displayOrders() {
 	if (player == nextTurns[0].own) {
 		var button = $(document.createElement('button')).text("Passer").click(function () {orderSkip()});
 		$("#menu").append(button);
-		console.log(cha.target);
 		if (cha.target != -1 && characters[idToIndex[cha.target]].own != player) {
 			button = $(document.createElement('button')).text("Attaquer").click(function () {orderAttack()});
 			$("#menu").append(button);
