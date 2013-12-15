@@ -112,6 +112,7 @@ function mouseClickGrid(s) {
 		var y = $(this)[0].cellIndex
 		var x = $(this).parent()[0].rowIndex
 		var cha = characters[idToIndex[nextTurns[0].id]]
+		var chaid = idToIndex[nextTurns[0].id];
 		if (nextTurns[0].own == player) {
 			aM = actionsMap(nextTurns[0].id);
 			if (aM[x][y]==2) {
@@ -119,11 +120,11 @@ function mouseClickGrid(s) {
 				displayActionsMap(nextTurns[0].id);
 			}
 			if (aM[x][y]==1) {
-				cha.target = map[x][y];
-				var distanceCase = bfs(cha.fx,cha.fy,cha.rad,cha.id);
+				characters[chaid].target = map[x][y];
+				var distanceCase = bfs(cha.x,cha.y,cha.rad,cha.id);
 				var caseTouchable = bfs(x,y,cha.range);
-				var xp = cha.fx
-				var yp = cha.fy
+				var xp = cha.x
+				var yp = cha.y
 				var temp = cha.rad+1
 				for (i = 0; i < map.length; i++) {
 					for (j = 0; j < map[0].length; j++) {
@@ -136,6 +137,7 @@ function mouseClickGrid(s) {
 				}
 				moveChar(cha.id,xp,yp);
 				displayActionsMap(nextTurns[0].id);
+				displayOrders();
 			}
 		}
 	})
@@ -171,6 +173,21 @@ function displayTitle(i,c) {
 	
 	c = c || function() {}
 	c();
+}
+
+
+function displayOrders() {
+	$("#menu").empty();
+	var cha = characters[idToIndex[nextTurns[0].id]];
+	if (player == nextTurns[0].own) {
+		var button = $(document.createElement('button')).text("Passer").click(function () {orderSkip()});
+		$("#menu").append(button);
+		console.log(cha.target);
+		if (cha.target != -1 && characters[idToIndex[cha.target]].own != player) {
+			button = $(document.createElement('button')).text("Attaquer").click(function () {orderAttack()});
+			$("#menu").append(button);
+		}
+	}
 }
 
 function removeChar (chaid) {

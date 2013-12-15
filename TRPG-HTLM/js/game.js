@@ -159,6 +159,7 @@ function loadTurn () {
 	displayActionsMap(nextTurns[0].id);
 	displayCard(nextTurns[0].id,"Left");
 	displayTitle(nextTurns[0].own);
+	displayOrders();
 }
 
 function attackChar (idatt,idadv,c) {
