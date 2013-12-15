@@ -18,6 +18,16 @@ function loadGame() {
 	}, "json");
 }
 
+function wait() {
+	
+	$.post( "query.php", { type: "wait", turn: nextTurns[0].val-0.001 }, function(data) {
+		eval(data);
+		if(nextTurns[0].own != player) {
+			setTimeout(function() {wait();},2000);
+		}
+	});
+}
+
 function character(id,x,y,own,type,nt)
 {
 	this.id=id;
@@ -164,12 +174,15 @@ function loadTurn () {
 	displayCard(nextTurns[0].id,"Left");
 	displayTitle(nextTurns[0].own);
 	displayOrders();
+	if (nextTurns[0].own!=player) {
+		wait();
+	}
 }
 
 function attackChar (idatt,idadv,c) {
-	cha = characters[idToIndex[idatt]]
-	adv = characters[idToIndex[idadv]]
-	adv.setHp(Math.max(adv.hp - cha.att,0))
+	cha = characters[idToIndex[idatt]];
+	adv = characters[idToIndex[idadv]];
+	characters[idToIndex[idadv]].setHp(Math.max(adv.hp - cha.att,0))
 	if (adv.hp == 0) {removeChar(idadv)}
 	
 	c = c || function() {}
@@ -177,28 +190,34 @@ function attackChar (idatt,idadv,c) {
 }
 
 function newTurn () {
-	victory()
+	victory();
 	cha = characters[idToIndex[nextTurns[0].id]]
+	characters[idToIndex[nextTurns[0].id]].fx = cha.x;
+	characters[idToIndex[nextTurns[0].id]].fy = cha.y;
 	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt+15*cha.cel,"own":cha.own,"name":cha.name});
 	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + cha.cel
 	nextTurns.splice(0, 1)
 	displayNextTurns()
 	displayActionsMap(nextTurns[0].id)
+	if (nextTurns[0].own!=player) {
+		wait();
+	}
 }
 
 function orderAttack () {
-	cha = characters[idToIndex[nextTurns[0].id]]
-	characters[idToIndex[nextTurns[0].id]].fx = cha.x
-	characters[idToIndex[nextTurns[0].id]].fy = cha.y
-	attackChar(cha.id,cha.target)
-	newTurn()
+	cha = characters[idToIndex[nextTurns[0].id]];
+	$.post( "query.php", { type: "action", x: cha.x, y: cha.y, action: "attack", target: cha.target, source: cha.id }, function(data) {
+		attackChar(cha.id,cha.target);
+		newTurn();
+	});
 }
 
 function orderSkip () {
-	cha = characters[idToIndex[nextTurns[0].id]]
-	characters[idToIndex[nextTurns[0].id]].fx = cha.x
-	characters[idToIndex[nextTurns[0].id]].fy = cha.y
-	newTurn()
+	cha = characters[idToIndex[nextTurns[0].id]];
+	$.post( "query.php", { type: "action", x: cha.x, y: cha.y, action: "skip", source: cha.id }, function(data) {
+		newTurn();
+		console.log(data);
+	});
 }
 
 function numberAlive(p) {
@@ -214,6 +233,6 @@ function victory() {
 	if (numberAlive(3-p) == 0) {
 		$('#toPlay').text("Victoire du joueur "+p);
 		$("#menu").empty()
-		}
+	}
 }
 
