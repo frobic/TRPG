@@ -199,15 +199,15 @@ function orderSkip () {
 	newTurn()
 }
 
-function numberAlive(player) {
+function numberAlive(p) {
 	var temp = 0
 	for (var i = 0 ; i < characters.length ; i++) {
-		if (characters[i].hp != 0) {temp++}
+		if (characters[i].hp != 0 && characters[i].own == p) {temp++}
 	}
 	return temp
 }
 
 function victory() {
-	player = nextTurns[0].own
-	if (numberAlive(3-player) == 0) {$('#toPlay').text("Victoire du joueur "+player);}
+	var p = nextTurns[0].own
+	if (numberAlive(3-p) == 0) {$('#toPlay').text("Victoire du joueur "+p);}
 }
