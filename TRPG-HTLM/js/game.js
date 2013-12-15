@@ -10,7 +10,7 @@ function character(id,x,y,own,type,nt)
 	this.fy = y;
 	this.target = -1;
 	this.own=own;
-	this.nt=nt;
+	this.nt=nt + 0.01*stats[type].cel;
 	this.att=stats[type].att;
 	this.hp=stats[type].hp;
 	this.hpmax=stats[type].hpmax;
@@ -39,7 +39,7 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	
 	for (var i = 0 ; i < 15 ; i++) {
 		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt,"own":myChar.own,"name":myChar.name});
-		characters[characters.length-1].nt = myChar.nt + (1.01)*myChar.cel
+		characters[characters.length-1].nt = myChar.nt + myChar.cel
 		myChar = characters[characters.length-1];
 	}
 	map[x][y] = id;
@@ -166,7 +166,7 @@ function newTurn () {
 	victory()
 	cha = characters[idToIndex[nextTurns[0].id]]
 	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt,"own":cha.own,"name":cha.name});
-	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + (1.01)*cha.cel
+	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + cha.cel
 	nextTurns.splice(0, 1)
 	displayNextTurns()
 	displayActionsMap(nextTurns[0].id)
