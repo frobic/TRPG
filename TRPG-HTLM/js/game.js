@@ -170,3 +170,23 @@ function attackChar (idatt,idadv,c) {
 	c = c || function() {}
 	c();
 }
+
+function newTurn () {
+	nextTurns.splice(0, 1)
+	displayNextTurns()
+}
+
+function orderAttack () {
+	cha = characters[idToIndex[nextTurns[0].id]]
+	characters[idToIndex[nextTurns[0].id]].fx = cha.x
+	characters[idToIndex[nextTurns[0].id]].fy = cha.y
+	attackChar(cha.id,target)
+	newTurn()
+}
+
+function orderSkip () {
+	cha = characters[idToIndex[nextTurns[0].id]]
+	characters[idToIndex[nextTurns[0].id]].fx = cha.x
+	characters[idToIndex[nextTurns[0].id]].fy = cha.y
+	newTurn()
+}
