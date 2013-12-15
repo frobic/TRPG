@@ -1,5 +1,11 @@
 <?php
 
+$string = file_get_contents("../js/stats.js");
+
+echo '<pre>';
+echo substr($string,8);
+echo '</pre>';
+
 class Game {
     
 	var $turn;

@@ -2,8 +2,8 @@
 <?php
 include("config.php");
 
-function reset_game() {
-    $query = "UPDATE trpg_games SET `turn` = 0 WHERE `id` = 1";
+function reset_game(n,m) {
+    $query = "UPDATE trpg_games SET `turn` = 0, `n` = n, `m` = m WHERE `id` = 1";
 	mysql_query($query);
     $query = "DELETE FROM trpg_characters";
 	mysql_query($query);
