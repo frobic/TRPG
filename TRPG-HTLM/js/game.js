@@ -10,7 +10,7 @@ function character(id,x,y,own,type,nt)
 	this.fy = y;
 	this.target = -1;
 	this.own=own;
-	this.nt=nt + 0.01*stats[type].cel;
+	this.nt=nt;
 	this.att=stats[type].att;
 	this.hp=stats[type].hp;
 	this.hpmax=stats[type].hpmax;
@@ -37,11 +37,8 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	var myChar = characters[characters.length-1];
 	idToIndex[id] = characters.length-1;
 	
-	for (var i = 0 ; i < 15 ; i++) {
-		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt,"own":myChar.own,"name":myChar.name});
-		characters[characters.length-1].nt = myChar.nt + myChar.cel
-		myChar = characters[characters.length-1];
-	}
+	for (var i = 0 ; i < 15 ; i++)
+		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt+i*myChar.cel,"own":myChar.own,"name":myChar.name});
 	map[x][y] = id;
 	
 	nextTurns.sort(function(a,b){return a.val-b.val})
@@ -165,7 +162,7 @@ function attackChar (idatt,idadv,c) {
 function newTurn () {
 	victory()
 	cha = characters[idToIndex[nextTurns[0].id]]
-	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt,"own":cha.own,"name":cha.name});
+	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt+15*cha.cel,"own":cha.own,"name":cha.name});
 	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + cha.cel
 	nextTurns.splice(0, 1)
 	displayNextTurns()
