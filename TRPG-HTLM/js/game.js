@@ -31,6 +31,16 @@ function character(id,x,y,own,type,nt)
 		this.range = 1;
 		this.name = "Eclaireur"
 	}
+	else if (type == "ARC") {
+		this.att=4;
+		this.hp=8;
+		this.hpmax=10;
+		this.cel=40;
+		this.tag = "ARC";
+		this.rad = 1;
+		this.range = 3;
+		this.name = "Archer"
+	}
 	function setHp (x) {
 		this.hp = x
 	}
