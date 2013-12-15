@@ -21,12 +21,10 @@ if (!function_exists('json_encode')) {
     }
 }
 
-$string = file_get_contents("../js/stats.js");
+$string = file_get_contents("./js/stats.js");
 $string = substr($string,8);
 
 $statistics = json_decode($string);
-
-echo $statistics->{"GUE"}->{"att"};
 
 class Game {
     

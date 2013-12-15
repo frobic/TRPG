@@ -1,16 +1,21 @@
 var cP1 = [25,150,25];
 var cP2 = [25,150,25];
 
-function loadGame(g) {
-	map = new Array();
-	createGrid (g[n],g[m])
-	for (var i = 0 ; i < length.g[characters] ; i++) {
-		newCharacter (g[characters][i].id,g[characters][i].x,g[characters][i].y,g[characters][i].own,g[characters][i].type,g[characters][i].nt)
-		characters[characters.length-1].setHp(g[characters][i].hp)
-		displayCharacter(g[characters][i].id)
-	}
-	displayNextTurns();
-	loadTurn ();
+function loadGame() {
+	
+	$.post( "query.php", { type: "loadgame" }, function(g) {
+		player = parseInt(g.p);
+		map = new Array();
+		retour = g;
+		createGrid (parseInt(g.n),parseInt(g.m));
+		for (var i = 0 ; i < g.characters.length ; i++) {
+			newCharacter (parseInt(g.characters[i].id),parseInt(g.characters[i].x),parseInt(g.characters[i].y),parseInt(g.characters[i].own),g.characters[i].type,parseFloat(g.characters[i].nt))
+			characters[characters.length-1].setHp(parseInt(g.characters[i].hp))
+			displayCharacter(parseInt(g.characters[i].id))
+		}
+		displayNextTurns();
+		loadTurn ();
+	}, "json");
 }
 
 function character(id,x,y,own,type,nt)

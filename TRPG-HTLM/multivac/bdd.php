@@ -1,10 +1,8 @@
-<pre>
 <?php
-include("config.php");
 
-function reset_game(n,m) {
-    $query = "UPDATE trpg_games SET `turn` = 0, `n` = n, `m` = m WHERE `id` = 1";
-	mysql_query($query);
+function reset_game($n,$m) {
+    $query = "UPDATE trpg_games SET `turn` = 0, `n` = $n, `m` = $m WHERE `id` = 1";
+	mysql_query($query) or die(mysql_error());
     $query = "DELETE FROM trpg_characters";
 	mysql_query($query);
 	$query = "DELETE FROM trpg_events";
@@ -22,18 +20,38 @@ function edit_character($id,$x,$y,$hp,$nextTurn) {
 	mysql_query($query);
 }
 
+function get_characters() {
+	$query = "SELECT * FROM trpg_characters";
+	$result = mysql_query($query);
+	$cha = array();
+	$i = 0 ;
+	while($row = mysql_fetch_array($result)) {
+		$cha[$i] = array();
+		$cha[$i]["id"] = $row["id"];
+		$cha[$i]["x"] = $row["x"];
+		$cha[$i]["y"] = $row["y"];
+		$cha[$i]["own"] = $row["owner"];
+		$cha[$i]["type"] = $row["class"];
+		$cha[$i]["hp"] = $row["hp"];
+		$cha[$i]["nt"] = $row["nextTurn"];
+		$i++;
+	}
+	
+	return $cha;
+	
+}
+
 function add_event($event) {
 	$query = "INSERT trpg_events VALUES ('','$event')";
 	mysql_query($query);
 }
 
-function get_game() {
-
+function get_game_size() {
+	$query = "SELECT * FROM trpg_games WHERE `id` = 1 LIMIT 1";
+	$result = mysql_query($query);
+	$row = mysql_fetch_array($result);
+	
+	return array($row["m"],$row["n"]);
 }
 
-//add_character(1,2,8,14,1,"GUE");
-//edit_character(5,1,2,0,14);
-
-mysql_close();
 ?>
-</pre>
