@@ -1,10 +1,32 @@
 <?php
 
-$string = file_get_contents("../js/stats.js");
+if (!function_exists('json_decode')) {
+    function json_decode($content, $assoc=false) {
+        require_once 'JSON.php';
+        if ($assoc) {
+            $json = new Services_JSON(SERVICES_JSON_LOOSE_TYPE);
+        }
+        else {
+            $json = new Services_JSON;
+        }
+        return $json->decode($content);
+    }
+}
 
-echo '<pre>';
-echo substr($string,8);
-echo '</pre>';
+if (!function_exists('json_encode')) {
+    function json_encode($content) {
+        require_once 'JSON.php';
+        $json = new Services_JSON;
+        return $json->encode($content);
+    }
+}
+
+$string = file_get_contents("../js/stats.js");
+$string = substr($string,8);
+
+$statistics = json_decode($string);
+
+echo $statistics->{"GUE"}->{"att"};
 
 class Game {
     
