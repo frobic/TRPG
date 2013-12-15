@@ -1,33 +1,3 @@
-var cP1 = [25,150,25];
-var cP2 = [25,150,25];
-
-function loadGame() {
-	
-	$.post( "query.php", { type: "loadgame" }, function(g) {
-		player = parseInt(g.p);
-		map = new Array();
-		retour = g;
-		createGrid (parseInt(g.n),parseInt(g.m));
-		for (var i = 0 ; i < g.characters.length ; i++) {
-			newCharacter (parseInt(g.characters[i].id),parseInt(g.characters[i].x),parseInt(g.characters[i].y),parseInt(g.characters[i].own),g.characters[i].type,parseFloat(g.characters[i].nt))
-			characters[characters.length-1].setHp(parseInt(g.characters[i].hp))
-			displayCharacter(parseInt(g.characters[i].id))
-		}
-		displayNextTurns();
-		loadTurn ();
-	}, "json");
-}
-
-function wait() {
-	
-	$.post( "query.php", { type: "wait", turn: nextTurns[0].val-0.001 }, function(data) {
-		eval(data);
-		if(nextTurns[0].own != player) {
-			setTimeout(function() {wait();},2000);
-		}
-	});
-}
-
 function character(id,x,y,own,type,nt)
 {
 	this.id=id;
@@ -58,8 +28,43 @@ function character(id,x,y,own,type,nt)
 	this.move=move;
 }
 
+function loadGame() {
+	
+	// Charge la partie en demandant aux serveurs les données
+
+	$.post( "query.php", { type: "loadgame" }, function(g) {
+		player = parseInt(g.p);
+		map = new Array();
+		retour = g;
+		createGrid (parseInt(g.n),parseInt(g.m));
+		for (var i = 0 ; i < g.characters.length ; i++) {
+			newCharacter (parseInt(g.characters[i].id),parseInt(g.characters[i].x),parseInt(g.characters[i].y),parseInt(g.characters[i].own),g.characters[i].type,parseFloat(g.characters[i].nt))
+			characters[characters.length-1].setHp(parseInt(g.characters[i].hp))
+			displayCharacter(parseInt(g.characters[i].id))
+		}
+		displayNextTurns();
+		loadTurn ();
+	}, "json");
+}
+
+function wait() {
+	
+	// Interroge le serveur pour connaitres les dernières évolutions
+	
+	// TODO Sécuriser le truc
+	
+	$.post( "query.php", { type: "wait", turn: nextTurns[0].val-0.001 }, function(data) {
+		eval(data);
+		if(nextTurns[0].own != player) {
+			setTimeout(function() {wait();},2000);
+		}
+	});
+}
 
 function newCharacter(id,x,y,own,type,nt,c) {
+	
+	// Ajoute un nouveau personnage, le place sur la map virutelle et ajoute ses tours.
+	
 	characters.push(new character(id,x,y,own,type,nt));
 	var myChar = characters[characters.length-1];
 	idToIndex[id] = characters.length-1;
@@ -75,6 +80,9 @@ function newCharacter(id,x,y,own,type,nt,c) {
 }
 
 function bfs (x,y,l,id) {
+	
+	// distance à une case
+	
 	var m = new Array();
 	for (var i = 0 ; i < map.length ; i++) {
 		m[i] = new Array();
@@ -119,6 +127,9 @@ function bfs (x,y,l,id) {
 }
 
 function dfs (m,x,y,d,v,id) {
+	
+	// Trace les couches de la heat map des actions
+	
 	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] <= v) {
 		m[x][y] = v;
 		m = dfs(m,x-1,y,d-1,v,id);
@@ -130,6 +141,9 @@ function dfs (m,x,y,d,v,id) {
 }
 
 function actionsMap(id,c) {
+	
+	// Heat map des actions
+	
 	var temp = new Array();
 	var cha = characters[idToIndex[id]];
 	for (var i = 0 ; i < map.length ; i++) {
@@ -159,6 +173,9 @@ function actionsMap(id,c) {
 }
 
 function moveChar (id,x,y,c) {
+	
+	// Déplace le personnage, sur la carte virtuel et l'affiche
+	
 	cha = characters[idToIndex[id]]
 	map[cha.x][cha.y] = 0
 	displayMoveChar(cha.x,cha.y,x,y);
@@ -170,6 +187,9 @@ function moveChar (id,x,y,c) {
 }
 
 function loadTurn () {
+	
+	// Charge le tour courrant
+	
 	displayActionsMap(nextTurns[0].id);
 	displayCard(nextTurns[0].id,"Left");
 	displayTitle(nextTurns[0].own);
@@ -180,6 +200,9 @@ function loadTurn () {
 }
 
 function attackChar (idatt,idadv,c) {
+	
+	// Attaque un personnage enlève des hp et le détruit si il est en dessous de 0HP
+	
 	cha = characters[idToIndex[idatt]];
 	adv = characters[idToIndex[idadv]];
 	characters[idToIndex[idadv]].setHp(Math.max(adv.hp - cha.att,0))
@@ -190,6 +213,9 @@ function attackChar (idatt,idadv,c) {
 }
 
 function newTurn () {
+	
+	// Passe au tour suivant du point de vue JS
+	
 	victory();
 	cha = characters[idToIndex[nextTurns[0].id]]
 	characters[idToIndex[nextTurns[0].id]].fx = cha.x;
@@ -199,12 +225,16 @@ function newTurn () {
 	nextTurns.splice(0, 1)
 	displayNextTurns()
 	displayActionsMap(nextTurns[0].id)
+	displayCard(nextTurns[0].id,"Left");
 	if (nextTurns[0].own!=player) {
 		wait();
 	}
 }
 
 function orderAttack () {
+	
+	// Envoie l'attaque au serveur, ajouter la vérification si OK, joue sinon recharge
+	
 	cha = characters[idToIndex[nextTurns[0].id]];
 	$.post( "query.php", { type: "action", x: cha.x, y: cha.y, action: "attack", target: cha.target, source: cha.id }, function(data) {
 		attackChar(cha.id,cha.target);
@@ -213,6 +243,9 @@ function orderAttack () {
 }
 
 function orderSkip () {
+	
+	// Envoie la fin du tour au serveur, ajouter la vérification si OK, joue sinon recharge
+	
 	cha = characters[idToIndex[nextTurns[0].id]];
 	$.post( "query.php", { type: "action", x: cha.x, y: cha.y, action: "skip", source: cha.id }, function(data) {
 		newTurn();
@@ -221,6 +254,9 @@ function orderSkip () {
 }
 
 function numberAlive(p) {
+	
+	// Compte le nombre de personnage du joueur p vivant
+	
 	var temp = 0
 	for (var i = 0 ; i < characters.length ; i++) {
 		if (characters[i].hp != 0 && characters[i].own == p) {temp++}
@@ -229,6 +265,9 @@ function numberAlive(p) {
 }
 
 function victory() {
+	
+	// Affiche la victoire
+	
 	var p = nextTurns[0].own
 	if (numberAlive(3-p) == 0) {
 		$('#toPlay').text("Victoire du joueur "+p);

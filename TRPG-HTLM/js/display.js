@@ -1,6 +1,6 @@
 function createGrid (n,m) {
 	
-	// Crée une grille vide de taille n x m
+	// Crée une grille vide de taille n x m, initialise la map et bind une fonction sur le td
 	
 	var grid = $('#grid')
 	
@@ -23,6 +23,8 @@ function createGrid (n,m) {
 
 function displayCharacter(chaid,c) {
 	
+	// Affiche un personnage sur la carte, bind un mouseover sur lui
+	
 	var cha = characters[idToIndex[chaid]];
 	var sprite = $(document.createElement('span')).addClass("player"+cha.own).text(cha.tag);
 	
@@ -33,15 +35,17 @@ function displayCharacter(chaid,c) {
 }
 
 function displayNextTurns(c) {
-	var sideTurns = $("#sideTurns");
 	
+	// Affiche le menu des prochains tours
+	
+	var sideTurns = $("#sideTurns");
 	sideTurns.empty()
 	
 	for (i = 0; i < 15; i++) {
 	    var div = $(document.createElement("div"));
 		div.addClass("player"+nextTurns[i].own);
 		div.text(nextTurns[i].name);
-	    sideTurns.append(div)
+	    sideTurns.append(div);
 		mouseOverNextTurn(div,i);
 	}
 		
@@ -49,15 +53,18 @@ function displayNextTurns(c) {
 	c();
 }
 
-function displayCard(chaid,pos,c) { 
+function displayCard(chaid,pos,c) {
+	
+	// Affiche la fiche de caractère, pos : Left ou Right
+	
 	var cha = characters[idToIndex[chaid]];
 	var p = $(document.createElement('p')).addClass("player"+cha.own)
 	var ligne = $(document.createElement('span')).text(""+cha.name+" (Joueur "+cha.own+")").append('<br />');
-	p.append(ligne);
+		p.append(ligne);
 	var ligne = $(document.createElement('span')).text("PV : "+cha.hp).append('<br />');
-	p.append(ligne);
+		p.append(ligne);
 	var ligne = $(document.createElement('span')).text("Dégâts : "+cha.att).append('<br />');
-	p.append(ligne);
+		p.append(ligne);
 	
 	$("#cb"+pos).empty();
 	$("#cb"+pos).append(p);
@@ -67,6 +74,9 @@ function displayCard(chaid,pos,c) {
 }
 
 function displayActionsMap(chaid,c) {
+	
+	// Affiche la carte des mouvements, attaque d'un personnage
+	
 	var actmap = actionsMap(chaid);
 	var cha = characters[idToIndex[chaid]];
 	for (i = 0; i < map.length; i++) {
@@ -91,7 +101,67 @@ function displayActionsMap(chaid,c) {
 	c();
 }
 
+function displayMoveChar(xd,yd,x,y,c) {
+	
+	// Déplace le personnage sur la carte (visuel seulement)
+	
+	$("#grid td").removeClass();
+	var temp = $("#grid tr:eq("+xd+") td:eq("+yd+")");
+	$("#grid tr:eq("+x+") td:eq("+y+")").append(temp.children()[0]);
+	
+	c = c || function() {}
+	c();
+	
+}
+
+
+function displayTitle(i,c) {
+	
+	// Affiche le message en haut de la grille
+	
+	$('#toPlay').text("Tour du joueur "+i);
+	
+	c = c || function() {}
+	c();
+}
+
+
+function displayOrders() {
+	
+	// Affiche le menu des actions disponnibles.
+	
+	$("#menu").empty();
+	var cha = characters[idToIndex[nextTurns[0].id]];
+	if (player == nextTurns[0].own) {
+		var button = $(document.createElement('button')).text("Tour suivant").click(function () {orderSkip()});
+		$("#menu").append(button);
+		if (cha.target != -1 && characters[idToIndex[cha.target]].own != player) {
+			button = $(document.createElement('button')).text("Attaquer").click(function () {orderAttack()});
+			$("#menu").append(button);
+		}
+	}
+}
+
+function removeChar (chaid) {
+	
+	// Enlève le personnage de la map, et des prochains tours
+	
+	cha = characters[idToIndex[chaid]]
+	map[cha.x][cha.y] = 0;
+	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").empty();
+	for(var i = nextTurns.length - 1; i >= 0; i--) {
+		if (nextTurns[i].id == cha.id) {
+			nextTurns.splice(i, 1);
+		}
+	}
+	displayNextTurns()
+}
+
+
 function mouseOverGridSpan(s) {
+	
+	// Fonction de passage sur un personnage, affiche la carte des actions possibles du personnage
+	
 	s.mouseover( function() {
 		var y = $(this).parent()[0].cellIndex
 		var x = $(this).parent().parent()[0].rowIndex
@@ -108,6 +178,9 @@ function mouseOverGridSpan(s) {
 }
 
 function mouseClickGrid(s) {
+	
+	// Fonction bind sur le click d'une case, déplace le personnage si autorisé et propose le menu d'actions si attaque
+	
 	s.click( function() {
 		var y = $(this)[0].cellIndex
 		var x = $(this).parent()[0].rowIndex
@@ -145,6 +218,9 @@ function mouseClickGrid(s) {
 }
 
 function mouseOverNextTurn(s,rank) {
+	
+	// Affiche la Action map correspondante au personnage ainsi que sa fiche.
+	
 	s.mouseover( function() {
 		var chaid = nextTurns[rank].id
 		if (chaid != 0) {
@@ -156,48 +232,4 @@ function mouseOverNextTurn(s,rank) {
 	s.mouseout(function() {
 		displayActionsMap(nextTurns[0].id);
 	})
-}
-
-function displayMoveChar(xd,yd,x,y,c) {
-	$("#grid td").removeClass();
-	var temp = $("#grid tr:eq("+xd+") td:eq("+yd+")");
-	$("#grid tr:eq("+x+") td:eq("+y+")").append(temp.children()[0]);
-	//temp.empty();
-	
-	c = c || function() {}
-	c();
-	
-}
-
-function displayTitle(i,c) {
-	$('#toPlay').text("Tour du joueur "+i);
-	
-	c = c || function() {}
-	c();
-}
-
-
-function displayOrders() {
-	$("#menu").empty();
-	var cha = characters[idToIndex[nextTurns[0].id]];
-	if (player == nextTurns[0].own) {
-		var button = $(document.createElement('button')).text("Tour suivant").click(function () {orderSkip()});
-		$("#menu").append(button);
-		if (cha.target != -1 && characters[idToIndex[cha.target]].own != player) {
-			button = $(document.createElement('button')).text("Attaquer").click(function () {orderAttack()});
-			$("#menu").append(button);
-		}
-	}
-}
-
-function removeChar (chaid) {
-	cha = characters[idToIndex[chaid]]
-	map[cha.x][cha.y] = 0;
-	$("#grid tr:eq("+cha.x+") td:eq("+cha.y+")").empty();
-	for(var i = nextTurns.length - 1; i >= 0; i--) {
-		if (nextTurns[i].id == cha.id) {
-			nextTurns.splice(i, 1);
-		}
-	}
-	displayNextTurns()
 }
