@@ -50,7 +50,9 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	idToIndex[id] = characters.length-1;
 	
 	for (var i = 0 ; i < 15 ; i++) {
-		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt+(i+0.01)*myChar.cel,"own":myChar.own,"name":myChar.name});
+		nextTurns.push({"id":myChar.id,"tag":myChar.tag,"val":myChar.nt,"own":myChar.own,"name":myChar.name});
+		characters[characters.length-1].nt = myChar.nt + (1.01)*myChar.cel
+		myChar = characters[characters.length-1];
 	}
 	map[x][y] = id;
 	
@@ -173,8 +175,12 @@ function attackChar (idatt,idadv,c) {
 }
 
 function newTurn () {
+	cha = characters[idToIndex[nextTurns[0].id]]
+	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt,"own":cha.own,"name":cha.name});
+	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + (1.01)*cha.cel
 	nextTurns.splice(0, 1)
 	displayNextTurns()
+	displayActionsMap(nextTurns[0].id)
 }
 
 function orderAttack () {
