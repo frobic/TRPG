@@ -1,0 +1,73 @@
+-- phpMyAdmin SQL Dump
+-- version OVH
+-- http://www.phpmyadmin.net
+--
+-- Client: mysql51-102.perso
+-- Généré le : Sun 15 Décembre 2013 à 12:14
+-- Version du serveur: 5.1.66
+-- Version de PHP: 5.3.8
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Base de données: `figarovsgorafi`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `trpg_characters`
+--
+
+CREATE TABLE IF NOT EXISTS `trpg_characters` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `owner` int(11) NOT NULL,
+  `hp` int(11) NOT NULL,
+  `nextTurn` double NOT NULL,
+  `x` int(11) NOT NULL,
+  `y` int(11) NOT NULL,
+  `class` varchar(3) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+
+--
+-- Contenu de la table `trpg_characters`
+--
+
+INSERT INTO `trpg_characters` (`id`, `owner`, `hp`, `nextTurn`, `x`, `y`, `class`) VALUES
+(6, 1, 8, 14, 1, 2, 'GUE'),
+(7, 1, 8, 14, 1, 2, 'GUE');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `trpg_events`
+--
+
+CREATE TABLE IF NOT EXISTS `trpg_events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `turn` double NOT NULL,
+  `event` varchar(128) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `trpg_games`
+--
+
+CREATE TABLE IF NOT EXISTS `trpg_games` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `turn` double NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `trpg_games`
+--
+
+INSERT INTO `trpg_games` (`id`, `turn`) VALUES
+(1, 0);
+
