@@ -11,36 +11,14 @@ function character(id,x,y,own,type,nt)
 	this.target = -1;
 	this.own=own;
 	this.nt=nt;
-	if (type == "GUE") {
-		this.att=5;
-		this.hp=10;
-		this.hpmax=15;
-		this.cel=30;
-		this.tag = "GUE";
-		this.rad = 1;
-		this.range = 1;
-		this.name = "Guerrier"
-	}
-	else if (type == "SCO") {
-		this.att=3;
-		this.hp=6;
-		this.hpmax=10;
-		this.cel=20;
-		this.tag = "SCO";
-		this.rad = 2;
-		this.range = 1;
-		this.name = "Eclaireur"
-	}
-	else if (type == "ARC") {
-		this.att=4;
-		this.hp=8;
-		this.hpmax=10;
-		this.cel=40;
-		this.tag = "ARC";
-		this.rad = 1;
-		this.range = 3;
-		this.name = "Archer"
-	}
+	this.att=stats[type].att;
+	this.hp=stats[type].hp;
+	this.hpmax=stats[type].hpmax;
+	this.cel=stats[type].cel;
+	this.tag = stats[type].tag;
+	this.rad = stats[type].rad;
+	this.range = stats[type].range;
+	this.name = stats[type].name;
 	function setHp (x) {
 		this.hp = x
 	}
