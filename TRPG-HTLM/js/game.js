@@ -72,17 +72,6 @@ function newCharacter(id,x,y,own,type,nt,c) {
 	c();
 }
 
-function dfs (m,x,y,d,v,id) {
-	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] < v) {
-		m[x][y] = v;
-		m = dfs(m,x-1,y,d-1,v,id);
-		m = dfs(m,x+1,y,d-1,v,id);
-		m = dfs(m,x,y-1,d-1,v,id);
-		m = dfs(m,x,y+1,d-1,v,id);
-	}
-	return m;
-}
-
 function bfs (x,y,l,id) {
 	var m = new Array();
 	for (var i = 0 ; i < map.length ; i++) {
@@ -124,6 +113,17 @@ function bfs (x,y,l,id) {
 	}
 	
 	
+	return m;
+}
+
+function dfs (m,x,y,d,v,id) {
+	if (d >= 0 && m[x] != undefined && m[x][y] != undefined && (map[x][y] == 0 || map[x][y] == id || v == 1) && m[x][y] <= v) {
+		m[x][y] = v;
+		m = dfs(m,x-1,y,d-1,v,id);
+		m = dfs(m,x+1,y,d-1,v,id);
+		m = dfs(m,x,y-1,d-1,v,id);
+		m = dfs(m,x,y+1,d-1,v,id);
+	}
 	return m;
 }
 
