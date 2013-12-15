@@ -2,11 +2,12 @@ var cP1 = [25,150,25];
 var cP2 = [25,150,25];
 
 function loadGame(g) {
+	characters = new Array();
 	map = new Array();
 	createGrid (g[n],g[m])
-	for (var i = 0 ; i < length.g[characters] ; i++) {
+	for (var i = 0 ; i < g[characters].length ; i++) {
 		newCharacter (g[characters][i].id,g[characters][i].x,g[characters][i].y,g[characters][i].own,g[characters][i].type,g[characters][i].nt)
-		characters[characters.length-1].setHp(g[characters][i].hp)
+		characters[i].setHp(g[characters][i].hp)
 		displayCharacter(g[characters][i].id)
 	}
 	displayNextTurns();
