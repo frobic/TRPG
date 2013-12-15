@@ -181,7 +181,7 @@ function displayOrders() {
 	$("#menu").empty();
 	var cha = characters[idToIndex[nextTurns[0].id]];
 	if (player == nextTurns[0].own) {
-		var button = $(document.createElement('button')).text("Passer").click(function () {orderSkip()});
+		var button = $(document.createElement('button')).text("Tour suivant").click(function () {orderSkip()});
 		$("#menu").append(button);
 		if (cha.target != -1 && characters[idToIndex[cha.target]].own != player) {
 			button = $(document.createElement('button')).text("Attaquer").click(function () {orderAttack()});

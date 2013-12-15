@@ -219,5 +219,8 @@ function numberAlive(p) {
 
 function victory() {
 	var p = nextTurns[0].own
-	if (numberAlive(3-p) == 0) {$('#toPlay').text("Victoire du joueur "+p);}
+	if (numberAlive(3-p) == 0) {
+		$('#toPlay').text("Victoire du joueur "+p);
+		$("#menu").empty()
+		}
 }
