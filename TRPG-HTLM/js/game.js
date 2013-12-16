@@ -58,7 +58,7 @@ function wait() {
 		if(nextTurns[0].own != player) {
 			setTimeout(function() {wait();},2000);
 		}
-	});
+	}).fail(function() {wait();});
 }
 
 function newCharacter(id,x,y,own,type,nt,c) {
@@ -223,9 +223,13 @@ function newTurn () {
 	nextTurns.push({"id":cha.id,"tag":cha.tag,"val":cha.nt+15*cha.cel,"own":cha.own,"name":cha.name});
 	characters[idToIndex[nextTurns[0].id]].nt = cha.nt + cha.cel
 	nextTurns.splice(0, 1)
-	displayNextTurns()
+	displayNextTurns();
+	
 	displayActionsMap(nextTurns[0].id)
 	displayCard(nextTurns[0].id,"Left");
+	displayTitle(nextTurns[0].own);
+	displayOrders();
+	
 	if (nextTurns[0].own!=player) {
 		wait();
 	}
